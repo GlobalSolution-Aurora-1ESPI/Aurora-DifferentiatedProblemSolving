@@ -26,6 +26,11 @@ def calcular_cobertura_noite(autonomia):
     return autonomia / NOITE_LUNAR_HORAS * 100
 
 
+def calcular_energia_gerada_dia():
+    t_dia = np.linspace(0, T_CICLO_LUNAR / 2, 1000)
+    return np.trapz(geracao_solar(t_dia), t_dia)
+
+
 def energia_restante(t):
     return E0 * np.exp(-K * t)
 
@@ -99,6 +104,7 @@ def main():
     autonomia = calcular_autonomia()
     cobertura_noite = calcular_cobertura_noite(autonomia)
     energia_no_limite = energia_restante(autonomia)
+    energia_gerada_dia = calcular_energia_gerada_dia()
 
     print("Modelo energetico da Base Lunar AURORA")
     print("-" * 44)
@@ -110,6 +116,7 @@ def main():
     print(f"Autonomia estimada: {autonomia:.1f} horas")
     print(f"Cobertura da noite lunar: {cobertura_noite:.1f}%")
     print(f"Energia no instante t*: {energia_no_limite:.1f} kWh")
+    print(f"Energia solar gerada no dia lunar: {energia_gerada_dia:.1f} kWh")
 
     criar_grafico_autonomia(autonomia)
     criar_grafico_modelo_solar()
