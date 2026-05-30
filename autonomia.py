@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 
 
 # autonomia.py - Modelo energetico da Base Lunar AURORA
+# Executar: python autonomia.py
+# Instalar dependencias: pip install numpy matplotlib
 
 
 # Parametros iniciais do problema
@@ -19,28 +21,34 @@ T_CICLO_LUNAR = 708.0  # horas - ciclo lunar aproximado de 29,5 dias
 
 
 def calcular_autonomia():
+    """Calcula t* quando a energia restante atinge o limite seguro."""
     return (1 / K) * math.log(E0 / E_SEG)
 
 
 def calcular_cobertura_noite(autonomia):
+    """Calcula qual porcentagem da noite lunar e coberta pela autonomia."""
     return autonomia / NOITE_LUNAR_HORAS * 100
 
 
 def calcular_energia_gerada_dia():
+    """Estima a energia gerada durante a metade iluminada do ciclo lunar."""
     t_dia = np.linspace(0, T_CICLO_LUNAR / 2, 1000)
     return np.trapz(geracao_solar(t_dia), t_dia)
 
 
 def energia_restante(t):
+    """Retorna E(t) = E0 * e^(-K*t), em kWh."""
     return E0 * np.exp(-K * t)
 
 
 def geracao_solar(t):
+    """Retorna P(t) positiva no dia lunar e zero durante a noite."""
     onda = P_MAX * np.sin(2 * math.pi * t / T_CICLO_LUNAR)
     return np.maximum(onda, 0)
 
 
 def criar_grafico_autonomia(autonomia):
+    """Gera o grafico obrigatorio da descarga exponencial."""
     t = np.linspace(0, 40, 400)
     energia = energia_restante(t)
 
@@ -75,6 +83,7 @@ def criar_grafico_autonomia(autonomia):
 
 
 def criar_grafico_modelo_solar():
+    """Gera o grafico avancado da geracao solar no ciclo lunar."""
     t = np.linspace(0, T_CICLO_LUNAR, 1000)
     potencia = geracao_solar(t)
     consumo_estimado = K * energia_restante(t)
