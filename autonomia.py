@@ -69,6 +69,32 @@ def criar_grafico_autonomia(autonomia):
     plt.savefig("aurora_autonomia.png", dpi=150, bbox_inches="tight")
 
 
+def criar_grafico_modelo_solar():
+    t = np.linspace(0, T_CICLO_LUNAR, 1000)
+    potencia = geracao_solar(t)
+    consumo_estimado = K * energia_restante(t)
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    fig.patch.set_facecolor("#080D1A")
+    ax.set_facecolor("#0D1B2E")
+
+    ax.plot(t, potencia, color="#FFD166", linewidth=2.5, label="P(t) solar positiva")
+    ax.plot(t, consumo_estimado, color="#7BDFF2", linewidth=2.0, label="Consumo estimado k*E(t)")
+    ax.fill_between(t, potencia, 0, where=(potencia > 0), alpha=0.16, color="#FFD166", label="Energia gerada")
+
+    ax.set_xlabel("Tempo no ciclo lunar (horas)", color="white")
+    ax.set_ylabel("Potencia (kW)", color="white")
+    ax.set_title("AURORA - Modelo Trigonometrico de Geracao Solar", color="#FFD166")
+    ax.legend(facecolor="#111827", labelcolor="white")
+    ax.tick_params(colors="white")
+
+    for spine in ax.spines.values():
+        spine.set_edgecolor("#1E293B")
+
+    plt.tight_layout()
+    plt.savefig("aurora_modelo_solar.png", dpi=150, bbox_inches="tight")
+
+
 def main():
     autonomia = calcular_autonomia()
     cobertura_noite = calcular_cobertura_noite(autonomia)
@@ -86,7 +112,8 @@ def main():
     print(f"Energia no instante t*: {energia_no_limite:.1f} kWh")
 
     criar_grafico_autonomia(autonomia)
-    print("Grafico salvo: aurora_autonomia.png")
+    criar_grafico_modelo_solar()
+    print("Graficos salvos: aurora_autonomia.png e aurora_modelo_solar.png")
     plt.show()
 
 
