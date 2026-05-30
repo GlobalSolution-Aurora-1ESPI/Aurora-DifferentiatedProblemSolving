@@ -1,3 +1,6 @@
+import math
+
+
 # autonomia.py - Modelo energetico da Base Lunar AURORA
 
 
@@ -8,12 +11,19 @@ E_SEG = 48.0  # kWh - limite seguro, equivalente a 40% de E0
 NOITE_LUNAR_HORAS = 336.0  # horas - duracao aproximada da noite lunar
 
 
+def calcular_autonomia():
+    return (1 / K) * math.log(E0 / E_SEG)
+
+
 def main():
+    autonomia = calcular_autonomia()
+
     print("Modelo energetico da Base Lunar AURORA")
     print(f"Energia inicial: {E0:.0f} kWh")
     print(f"Taxa de descarga: {K:.3f} h^-1")
     print(f"Limite seguro: {E_SEG:.0f} kWh")
     print(f"Noite lunar: aproximadamente {NOITE_LUNAR_HORAS:.0f} horas")
+    print(f"Autonomia estimada: {autonomia:.1f} horas")
 
 
 if __name__ == "__main__":
