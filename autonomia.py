@@ -26,7 +26,7 @@ def energia_restante(t):
     return E0 * np.exp(-K * t)
 
 
-def criar_grafico_autonomia():
+def criar_grafico_autonomia(autonomia):
     t = np.linspace(0, 40, 400)
     energia = energia_restante(t)
 
@@ -35,6 +35,18 @@ def criar_grafico_autonomia():
     ax.set_facecolor("#0D1B2E")
 
     ax.plot(t, energia, color="#FF7A33", linewidth=2.5, label="E(t) = 120 * e^(-0.067t)")
+    ax.axhline(E_SEG, color="#FF4444", linestyle="--", label=f"E_seg = {E_SEG:.0f} kWh")
+    ax.axvline(autonomia, color="#00C9FF", linestyle=":", label=f"t* = {autonomia:.1f} h")
+    ax.fill_between(
+        t,
+        energia,
+        E_SEG,
+        where=(energia >= E_SEG),
+        alpha=0.15,
+        color="#00C48C",
+        label="Zona segura",
+    )
+
     ax.set_xlabel("Tempo (horas)", color="white")
     ax.set_ylabel("Energia (kWh)", color="white")
     ax.set_title("AURORA - Curva de Autonomia Energetica", color="#FF7A33")
@@ -63,7 +75,7 @@ def main():
     print(f"Cobertura da noite lunar: {cobertura_noite:.1f}%")
     print(f"Energia no instante t*: {energia_no_limite:.1f} kWh")
 
-    criar_grafico_autonomia()
+    criar_grafico_autonomia(autonomia)
     plt.show()
 
 
