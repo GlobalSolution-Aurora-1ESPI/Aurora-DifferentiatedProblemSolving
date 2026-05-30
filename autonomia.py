@@ -13,6 +13,10 @@ K = 0.067  # h^-1 - taxa de descarga
 E_SEG = 48.0  # kWh - limite seguro, equivalente a 40% de E0
 NOITE_LUNAR_HORAS = 336.0  # horas - duracao aproximada da noite lunar
 
+# Parametros do modelo trigonometrico de geracao solar
+P_MAX = 15.0  # kW - potencia maxima dos paineis solares
+T_CICLO_LUNAR = 708.0  # horas - ciclo lunar aproximado de 29,5 dias
+
 
 def calcular_autonomia():
     return (1 / K) * math.log(E0 / E_SEG)
@@ -24,6 +28,11 @@ def calcular_cobertura_noite(autonomia):
 
 def energia_restante(t):
     return E0 * np.exp(-K * t)
+
+
+def geracao_solar(t):
+    onda = P_MAX * np.sin(2 * math.pi * t / T_CICLO_LUNAR)
+    return np.maximum(onda, 0)
 
 
 def criar_grafico_autonomia(autonomia):
