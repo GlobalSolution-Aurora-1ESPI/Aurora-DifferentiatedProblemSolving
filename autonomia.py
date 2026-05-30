@@ -1,6 +1,7 @@
 import math
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 # autonomia.py - Modelo energetico da Base Lunar AURORA
@@ -25,6 +26,27 @@ def energia_restante(t):
     return E0 * np.exp(-K * t)
 
 
+def criar_grafico_autonomia():
+    t = np.linspace(0, 40, 400)
+    energia = energia_restante(t)
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+    fig.patch.set_facecolor("#080D1A")
+    ax.set_facecolor("#0D1B2E")
+
+    ax.plot(t, energia, color="#FF7A33", linewidth=2.5, label="E(t) = 120 * e^(-0.067t)")
+    ax.set_xlabel("Tempo (horas)", color="white")
+    ax.set_ylabel("Energia (kWh)", color="white")
+    ax.set_title("AURORA - Curva de Autonomia Energetica", color="#FF7A33")
+    ax.legend(facecolor="#111827", labelcolor="white")
+    ax.tick_params(colors="white")
+
+    for spine in ax.spines.values():
+        spine.set_edgecolor("#1E293B")
+
+    plt.tight_layout()
+
+
 def main():
     autonomia = calcular_autonomia()
     cobertura_noite = calcular_cobertura_noite(autonomia)
@@ -40,6 +62,9 @@ def main():
     print(f"Autonomia estimada: {autonomia:.1f} horas")
     print(f"Cobertura da noite lunar: {cobertura_noite:.1f}%")
     print(f"Energia no instante t*: {energia_no_limite:.1f} kWh")
+
+    criar_grafico_autonomia()
+    plt.show()
 
 
 if __name__ == "__main__":
