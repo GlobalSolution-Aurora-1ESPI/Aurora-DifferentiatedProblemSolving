@@ -57,6 +57,7 @@ def criar_grafico_autonomia(autonomia):
         spine.set_edgecolor("#1E293B")
 
     plt.tight_layout()
+    plt.savefig("aurora_autonomia.png", dpi=150, bbox_inches="tight")
 
 
 def main():
@@ -76,6 +77,7 @@ def main():
     print(f"Energia no instante t*: {energia_no_limite:.1f} kWh")
 
     criar_grafico_autonomia(autonomia)
+    print("Grafico salvo: aurora_autonomia.png")
     plt.show()
 
 
