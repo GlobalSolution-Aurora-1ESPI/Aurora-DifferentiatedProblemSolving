@@ -1,5 +1,7 @@
 import math
 
+import numpy as np
+
 
 # autonomia.py - Modelo energetico da Base Lunar AURORA
 
@@ -19,9 +21,14 @@ def calcular_cobertura_noite(autonomia):
     return autonomia / NOITE_LUNAR_HORAS * 100
 
 
+def energia_restante(t):
+    return E0 * np.exp(-K * t)
+
+
 def main():
     autonomia = calcular_autonomia()
     cobertura_noite = calcular_cobertura_noite(autonomia)
+    energia_no_limite = energia_restante(autonomia)
 
     print("Modelo energetico da Base Lunar AURORA")
     print("-" * 44)
@@ -32,6 +39,7 @@ def main():
     print("-" * 44)
     print(f"Autonomia estimada: {autonomia:.1f} horas")
     print(f"Cobertura da noite lunar: {cobertura_noite:.1f}%")
+    print(f"Energia no instante t*: {energia_no_limite:.1f} kWh")
 
 
 if __name__ == "__main__":
