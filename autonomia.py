@@ -33,7 +33,7 @@ def calcular_cobertura_noite(autonomia):
 def calcular_energia_gerada_dia():
     """Estima a energia gerada durante a metade iluminada do ciclo lunar."""
     t_dia = np.linspace(0, T_CICLO_LUNAR / 2, 1000)
-    return np.trapz(geracao_solar(t_dia), t_dia)
+    return np.trapezoid(geracao_solar(t_dia), t_dia)
 
 
 def energia_restante(t):
